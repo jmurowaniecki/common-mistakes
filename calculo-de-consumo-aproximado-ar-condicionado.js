@@ -57,7 +57,7 @@ function calculoDeConsumo(horasPorDia, diasPorMes, consumoEnergetico, precoKWpH,
         if (u === null) {
             return "R$ " + M + " p/mês";
         }
-        if (u.value !== undefined) {
+        if (u.value === undefined) {
             u.innerText = "R$ " + M + " p/mês";
         } else {
             u.value = "R$ " + M + " p/mês";
