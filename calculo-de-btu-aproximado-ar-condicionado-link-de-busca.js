@@ -49,7 +49,7 @@ function linkDeBusca(BTUh, idObjetoRetorno) {
         60000 : 99999999
     };
     for (i in BTUs) {
-        if (BTUs.hasOwnProperty(i) && BTUh <= BTUs[i]) {
+        if (BTUs.hasOwnProperty(i) && BTUh <= i) {
             break;
         }
     }
