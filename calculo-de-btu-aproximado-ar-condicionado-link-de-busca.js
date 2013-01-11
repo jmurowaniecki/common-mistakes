@@ -1,4 +1,4 @@
-/*  calculo-de-btu-aproximado-ar-condicionado.js
+/*  calculo-de-btu-aproximado-ar-condicionado-link-de-busca.js
     This file is part of common-mistakes
 
     Copyright (C) 2013 - John Murowaniecki
@@ -20,44 +20,46 @@
 */
 
 /**
-* Cálculo de BTUs aproximado para Ar Condicionados - Função com retorno do
-* texto contendo o cálculo de BTUs.
+* Cria link de busca para a quantidade de BTUs informada.
 *
-* @param {Number} areaMetroQuadrado
-* @param {Number} qtdePessoas
-* @param {Number} qtdeEletronicos
+* @param {Number} BTUh
 * @param {String} idObjetoRetorno - caso o ID solicitado não exista, seu
 *                 resultado será o retorno da função. Podem ser vinculados IDs
 *                 de campos INPUT ou blocos HTML que contenham o atributo ".innerText".
-* @return {Number} BTUh.
+* @return {String} Link da busca de produtos para a carga de BTUs solicitada
+*
+*
+* Exemplo de utilização:
+*   calculoDeBTU(2, 3, 4, "resultadoCalculo", function (btus) {
+*       return linkDeBusca(btus, 'linkDaBusca');
+*   });
 */
 /*jslint browser: true, devel: true */
-function calculoDeBTU(areaMetroQuadrado, qtdePessoas, qtdeEletronicos, idObjetoRetorno, callbackWithResult) {
+function linkDeBusca(BTUh, idObjetoRetorno) {
     "use strict";
-    var j, o, h, n, M, u = document.getElementById(idObjetoRetorno), BTUh = false;
-    j = parseFloat(areaMetroQuadrado);
-    o = parseFloat(qtdePessoas);
-    h = parseFloat(qtdeEletronicos);
-    n = 0;
-    M = 600;
-    if ((String() + j + o + h + n).indexOf("NaN") > -1) {
-        alert("Digite os dados corretamente");
-    } else {
-        n = j * M + h * M;
-        if (o > 2) {
-            n += (o - 2) * M;
-        }
-        n = (BTUh = n) + " BTUh";
-        if (u !== null) {
-            if (u.value === undefined) {
-                u.innerText = n;
-            } else {
-                u.value = n;
-            }
+    var i, link = "Ache ar condicionados com {{BTUs}} BTUhs", idObj = document.getElementById(idObjetoRetorno), BTUs = {
+        7000 : 9000,
+        9000 : 12000,
+        12000 : 18000,
+        18000 : 24000,
+        24000 : 30000,
+        30000 : 36000,
+        36000 : 48000,
+        48000 : 60000,
+        60000 : 99999999
+    };
+    for (i in BTUs) {
+        if (BTUs.hasOwnProperty(i) && BTUh <= BTUs[i]) {
+            break;
         }
     }
-    if (callbackWithResult !== undefined) {
-        callbackWithResult(BTUh);
+    link = link.replace('{{BTUs}}', BTUs[i]).link("/busca/?btu=" + i + "&ordem=menor-preco");
+    if (idObj !== null) {
+        if (idObj.value === undefined) {
+            idObj.innerHTML = link;
+        } else {
+            idObj.value = link;
+        }
     }
-    return BTUh;
+    return link;
 }
