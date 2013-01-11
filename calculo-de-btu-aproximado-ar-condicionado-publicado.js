@@ -119,3 +119,8 @@ function test1(formulario) {
         });
     }
 }
+
+// Eventos do Google
+$('#linkDaBusca').click(function () {
+    _gaq.push(['_trackEvent', 'Plugin', 'Cálculo de BTUh', $('#linkDaBusca').text()]);
+});
