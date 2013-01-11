@@ -53,7 +53,7 @@ function linkDeBusca(BTUh, idObjetoRetorno) {
             break;
         }
     }
-    link = link.replace('{{BTUs}}', BTUs[i]).link("/busca/?btu=" + i + "&ordem=menor-preco");
+    link = link.replace('{{BTUs}}', i).link("/busca/?btu=" + i + "&ordem=menor-preco");
     if (idObj !== null) {
         if (idObj.value === undefined) {
             idObj.innerHTML = link;
