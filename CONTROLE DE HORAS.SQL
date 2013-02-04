@@ -1,5 +1,20 @@
+--------------------------------------------------------------------------------
 -- POR DIA --
-select user_id, DATA, SEC_TO_TIME(SUM(time_to_sec(`out`)) -SUM(time_to_sec(`in`))) AS horas from horarios GROUP BY DATA
+select funcionario_id, DATA, SEC_TO_TIME(SUM(TIME_TO_SEC(saida)) - SUM(TIME_TO_SEC(entrada))) AS horas from horarios GROUP BY DATA
+--------------------------------------------------------------------------------
 
+--------------------------------------------------------------------------------
 -- POR SEMANA --
-SELECT user_id, DATA, SEC_TO_TIME(SUM(time_to_sec(`out`)) -SUM(time_to_sec(`in`))) AS horas FROM horarios GROUP BY WEEK(DATA)
+SELECT funcionario_id, WEEK(DATA), SEC_TO_TIME((40 * 60 * 60) - SUM(TIME_TO_SEC(horas)))
+FROM
+(
+	SELECT funcionario_id, DATA, SEC_TO_TIME(SUM(TIME_TO_SEC(saida)) - SUM(TIME_TO_SEC(entrada))) AS horas
+	FROM horarios
+	INNER JOIN funcionario
+		ON	funcionario.id = horarios.funcionario_id
+		AND	funcionario.logname = 'john'
+	GROUP BY WEEK(DATA)
+) AS SUB
+WHERE WEEK(DATA) = WEEK(NOW())
+GROUP BY WEEK(DATA)
+--------------------------------------------------------------------------------
