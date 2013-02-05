@@ -24,3 +24,13 @@ echo "
         AND f.logname = '${LOGNAME}'
 	WHERE WEEK(DATA) = WEEK(NOW())
     GROUP BY WEEK(DATA)" | mysql --user=livroponto --password=livro --database=livroponto --column-names=false
+
+echo -n "Diário..: "
+echo "
+    SELECT SEC_TO_TIME((8.8 * 60 * 60) - (SUM(TIME_TO_SEC(saida)) - SUM(TIME_TO_SEC(entrada)))) AS horas
+    FROM horarios
+    INNER JOIN funcionario f
+        ON  f.id = horarios.funcionario_id
+        AND f.logname = '${LOGNAME}'
+    WHERE DATE(DATA) = DATE(NOW())
+    GROUP BY DATE(DATA)" | mysql --user=livroponto --password=livro --database=livroponto --column-names=false
