@@ -107,3 +107,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 export PATH=/opt/qt5/bin:$PATH
+
+
+alias monitoroff='vbetool dpms off'
+alias monitoron='vbetool dpms on'
